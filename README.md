@@ -1,5 +1,5 @@
 # Wine-Quality-Predictor-
-Wine Prdeictor, predicts the quality of wine, whether it is good or bad based on a number of factors. The various technologies used are:
+Wine Predictor, predicts the quality of wine, whether it is good or bad based on a number of factors. The various technologies used are:
 
 Numpy
 
