@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
 # loading the dataset to pandas dataframe
-wine_dataset = pd.read_csv('C:/Users/ANKITAGHOSH/Desktop/winequalityN.csv')
+wine_dataset = pd.read_csv('extracted_files/winequalityN.csv')
 
 # Number of rows and columns in the dataset
 print(wine_dataset.shape)
@@ -19,7 +19,9 @@ print(wine_dataset.head())
 print(wine_dataset.isnull().sum())
 
 # filling the null values with the mean of the column
-wine_dataset.update(wine_dataset.fillna(wine_dataset.mean()))
+# Exclude the 'type' column from mean imputation as it's non-numeric
+numeric_columns = wine_dataset.select_dtypes(include=np.number).columns
+wine_dataset[numeric_columns] = wine_dataset[numeric_columns].apply(lambda col: col.fillna(col.mean()), axis=0)
 
 # description of the data set
 print(wine_dataset.describe())
@@ -39,7 +41,9 @@ plot2 = plt.figure(figsize=(6, 5))
 sns.barplot(x='quality', y='citric acid', data=wine_dataset)
 plt.show()
 
-corelation = wine_dataset.corr()
+# Select only numeric columns for correlation calculation
+numeric_wine_dataset = wine_dataset.select_dtypes(include=np.number)
+corelation = numeric_wine_dataset.corr()  # Calculate correlation on numeric data only
 
 # constructing a heatmap to understand the co-relation between the columns
 plt.figure(figsize=(10, 10))
